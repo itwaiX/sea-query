@@ -230,9 +230,6 @@ jobs:
   tidb:
     name: TiDB
     runs-on: ubuntu-20.04
-    needs:
-      - init
-      - compile-mysql
     env:
       DATABASE_URL: "mysql://root:@127.0.0.1:4000"
     strategy:
