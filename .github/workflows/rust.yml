@@ -330,19 +330,19 @@ jobs:
     #     ports:
     #       - "5432:5432"
     #       - "8080:8080"
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
-
-      - uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --manifest-path examples/${{ matrix.example }}/Cargo.toml
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - uses: actions-rs/toolchain@v1
+#        with:
+#          profile: minimal
+#          toolchain: stable
+#          override: true
+#
+#      - uses: actions-rs/cargo@v1
+#        with:
+#          command: build
+#          args: --manifest-path examples/${{ matrix.example }}/Cargo.toml
 
       # - uses: actions-rs/cargo@v1
       #   with:
