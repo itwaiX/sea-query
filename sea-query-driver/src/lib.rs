@@ -89,24 +89,24 @@ pub fn bind_params_sqlx_mysql(input: TokenStream) -> TokenStream {
 ///
 /// Examples:
 /// ```
-/// sea_query::sea_query_driver_mysql!()
+/// sea_query::sea_query_driver_tidb!()
 /// ```
 ///
 /// Specify a path to the `sqlx` crate instance
 /// ```
-/// sea_query::sea_query_driver_mysql!(sqlx = "...")
+/// sea_query::sea_query_driver_tidb!(sqlx = "...")
 /// ```
 ///
 /// Specify a path to the `sea-query` crate instance
 /// ```
-/// sea_query::sea_query_driver_mysql!(sea_query = "...")
+/// sea_query::sea_query_driver_tidb!(sea_query = "...")
 /// ```
 ///
 /// Specify pathes to the `sea-query` and to the `sqlx` crates instances
 /// ```
-/// sea_query::sea_query_driver_mysql!(sqlx="...", sea_query="...")
+/// sea_query::sea_query_driver_tidb!(sqlx="...", sea_query="...")
 /// // or
-/// sea_query::sea_query_driver_mysql!(sea_query="...", sqlx="...")
+/// sea_query::sea_query_driver_tidb!(sea_query="...", sqlx="...")
 /// ```
 #[cfg(feature = "sqlx-tidb")]
 #[proc_macro]

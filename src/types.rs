@@ -446,6 +446,11 @@ mod tests {
             query.to_string(MysqlQueryBuilder),
             r#"SELECT `hello-World_`"#
         );
+        #[cfg(feature = "backend-tidb")]
+        assert_eq!(
+            query.to_string(TiDBQueryBuilder),
+            r#"SELECT `hello-World_`"#
+        );
         #[cfg(feature = "backend-postgres")]
         assert_eq!(
             query.to_string(PostgresQueryBuilder),
@@ -464,6 +469,8 @@ mod tests {
 
         #[cfg(feature = "backend-mysql")]
         assert_eq!(query.to_string(MysqlQueryBuilder), r#"SELECT `hel``lo`"#);
+        #[cfg(feature = "backend-tidb")]
+        assert_eq!(query.to_string(TiDBQueryBuilder), r#"SELECT `hel``lo`"#);
         #[cfg(feature = "backend-sqlite")]
         assert_eq!(query.to_string(SqliteQueryBuilder), r#"SELECT "hel`lo""#);
 
@@ -479,6 +486,8 @@ mod tests {
 
         #[cfg(feature = "backend-mysql")]
         assert_eq!(query.to_string(MysqlQueryBuilder), r#"SELECT `hel````lo`"#);
+        #[cfg(feature = "backend-mysql")]
+        assert_eq!(query.to_string(TiDBQueryBuilder), r#"SELECT `hel````lo`"#);
         #[cfg(feature = "backend-sqlite")]
         assert_eq!(query.to_string(SqliteQueryBuilder), r#"SELECT "hel``lo""#);
 
