@@ -230,13 +230,11 @@ jobs:
   tidb:
     name: TiDB
     runs-on: ubuntu-20.04
+    needs:
+      - init
+      - compile-mysql
     env:
       DATABASE_URL: "mysql://root:@127.0.0.1:4000"
-      MYSQL_HOST: 127.0.0.1
-      MYSQL_DATABASE: query
-      MYSQL_USER: sea
-      MYSQL_PASSWORD: sea
-      MYSQL_ROOT_PASSWORD: sea
     strategy:
       fail-fast: false
       matrix:
@@ -252,20 +250,8 @@ jobs:
           toolchain: stable
           override: true
 
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cargo/registry
-            ~/.cargo/git
-            Cargo.lock
-            target
-          key: ${{ github.sha }}-${{ github.run_id }}-${{ runner.os }}-mysql-${{ matrix.runtime }}-${{ matrix.tls }}
-
       - name: Install tiup
         run: curl --proto '=https' --tlsv1.2 -sSf https://tiup-mirrors.pingcap.com/install.sh | sh
-
-      - name: Source
-        run: source /home/runner/.profile
 
       - name: Run tiup
         run: RUNNER_TRACKING_ID="" && (nohup /home/runner/.tiup/bin/tiup playground ${{ matrix.version }} > nohup.txt &)
