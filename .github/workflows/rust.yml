@@ -235,22 +235,8 @@ jobs:
       matrix:
         version: [ v6.1.0, v5.4.1 ]
         example: [sqlx_tidb]
-    services:
-      mysql:
-        image: tidb:${{ matrix.version }}
-        env:
-          MYSQL_HOST: 127.0.0.1
-          MYSQL_DATABASE: query
-          MYSQL_USER: sea
-          MYSQL_PASSWORD: sea
-          MYSQL_ROOT_PASSWORD: sea
-        ports:
-          - "4000:4000"
-#        options: >-
-#          --health-cmd="mysqladmin ping"
-#          --health-interval=10s
-#          --health-timeout=5s
-#          --health-retries=3
+    env:
+      DATABASE_URL: "mysql://root:@localhost:4000"
     steps:
       - uses: actions/checkout@v2
 
