@@ -14,6 +14,8 @@ mod sqlite;
 
 #[cfg(feature = "backend-mysql")]
 pub use mysql::*;
+#[cfg(feature = "backend-tidb")]
+pub use tidb::*;
 #[cfg(feature = "backend-postgres")]
 pub use postgres::*;
 #[cfg(feature = "backend-sqlite")]
