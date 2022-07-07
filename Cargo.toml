@@ -11,6 +11,7 @@ members = [
     "examples/sqlx_mysql",
     "examples/sqlx_postgres",
     "examples/sqlx_sqlite",
+    "examples/sqlx_tidb",
 ]
 
 [package]
