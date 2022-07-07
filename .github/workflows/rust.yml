@@ -209,7 +209,6 @@ jobs:
 #          --health-interval=10s
 #          --health-timeout=5s
 #          --health-retries=3
-#
 #    steps:
 #      - uses: actions/checkout@v2
 #
@@ -236,17 +235,14 @@ jobs:
       matrix:
         version: [ v6.1.0, v5.4.1 ]
         example: [sqlx_tidb]
-    services:
-      tidb:
-        image: tidb:${{ matrix.version }}
-        env:
-          MYSQL_HOST: 127.0.0.1
-          MYSQL_DATABASE: query
-          MYSQL_USER: sea
-          MYSQL_PASSWORD: sea
-          MYSQL_ROOT_PASSWORD: sea
-        ports:
-          - "4000:4000"
+    env:
+      DATABASE_URL: "mysql://root:@localhost:4000"
+      MYSQL_HOST: 127.0.0.1
+      MYSQL_DATABASE: query
+      MYSQL_USER: sea
+      MYSQL_PASSWORD: sea
+      MYSQL_ROOT_PASSWORD: sea
+
     steps:
       - uses: actions/checkout@v2
 
@@ -319,42 +315,42 @@ jobs:
 #        with:
 #          command: run
 #          args: --manifest-path examples/${{ matrix.example }}/Cargo.toml
-
-  cockroach:
-    name: CockroachDB
-    runs-on: ubuntu-20.04
-    strategy:
-      matrix:
-        # version: [v21.1.6, v20.2.13]
-        example: [cockroach, cockroach_json]
-    # services:
-    #   cockroach:
-    #     image: cockroachdb/cockroach:${{ matrix.version }}
-    #     env:
-    #       COCKROACH_HOSTNAME: 127.0.0.1
-    #       COCKROACH_PORT: 5432
-    #       COCKROACH_DB: query
-    #       COCKROACH_USER: sea
-    #       COCKROACH_PASSWORD: sea
-    #       COCKROACH_INSECURE: true
-    #     ports:
-    #       - "5432:5432"
-    #       - "8080:8080"
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
-
-      - uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --manifest-path examples/${{ matrix.example }}/Cargo.toml
-
-      # - uses: actions-rs/cargo@v1
-      #   with:
-      #     command: run
-      #     args: --manifest-path examples/${{ matrix.example }}/Cargo.toml
+#
+#  cockroach:
+#    name: CockroachDB
+#    runs-on: ubuntu-20.04
+#    strategy:
+#      matrix:
+#        # version: [v21.1.6, v20.2.13]
+#        example: [cockroach, cockroach_json]
+#    # services:
+#    #   cockroach:
+#    #     image: cockroachdb/cockroach:${{ matrix.version }}
+#    #     env:
+#    #       COCKROACH_HOSTNAME: 127.0.0.1
+#    #       COCKROACH_PORT: 5432
+#    #       COCKROACH_DB: query
+#    #       COCKROACH_USER: sea
+#    #       COCKROACH_PASSWORD: sea
+#    #       COCKROACH_INSECURE: true
+#    #     ports:
+#    #       - "5432:5432"
+#    #       - "8080:8080"
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - uses: actions-rs/toolchain@v1
+#        with:
+#          profile: minimal
+#          toolchain: stable
+#          override: true
+#
+#      - uses: actions-rs/cargo@v1
+#        with:
+#          command: build
+#          args: --manifest-path examples/${{ matrix.example }}/Cargo.toml
+#
+#      # - uses: actions-rs/cargo@v1
+#      #   with:
+#      #     command: run
+#      #     args: --manifest-path examples/${{ matrix.example }}/Cargo.toml
