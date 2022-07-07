@@ -12,7 +12,7 @@ use uuid::Uuid;
 
 #[async_std::main]
 async fn main() {
-    let connection = MySqlPool::connect("mysql://sea:sea@localhost:4000/query")
+    let connection = MySqlPool::connect("mysql://sea:sea@127.0.0.1:4000/query")
         .await
         .unwrap();
     let mut pool = connection.try_acquire().unwrap();

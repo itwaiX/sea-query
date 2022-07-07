@@ -236,7 +236,7 @@ jobs:
         version: [ v6.1.0, v5.4.1 ]
         example: [sqlx_tidb]
     env:
-      DATABASE_URL: "mysql://root:@localhost:4000"
+      DATABASE_URL: "mysql://root:@127.0.0.1:4000"
       MYSQL_HOST: 127.0.0.1
       MYSQL_DATABASE: query
       MYSQL_USER: sea
