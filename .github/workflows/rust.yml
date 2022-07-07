@@ -261,6 +261,9 @@ jobs:
       - name: Run tiup
         run: RUNNER_TRACKING_ID="" && (nohup /home/runner/.tiup/bin/tiup playground ${{ matrix.version }} > nohup.txt &)
 
+      - name: Vertify TiDB connection from host
+        run: mysql --host 127.0.0.1 --port 4000 -u root
+        
       - name: Wait TiDB ready
         run: sleep 15s && cat nohup.txt
         shell: bash
