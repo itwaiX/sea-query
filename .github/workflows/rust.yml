@@ -230,11 +230,6 @@ jobs:
   tidb:
     name: TiDB
     runs-on: ubuntu-20.04
-    strategy:
-      fail-fast: false
-      matrix:
-        version: [ v6.1.0, v5.4.1 ]
-        example: [sqlx_tidb]
     env:
       DATABASE_URL: "mysql://root:@127.0.0.1:4000"
       MYSQL_HOST: 127.0.0.1
@@ -242,6 +237,11 @@ jobs:
       MYSQL_USER: sea
       MYSQL_PASSWORD: sea
       MYSQL_ROOT_PASSWORD: sea
+    strategy:
+      fail-fast: false
+      matrix:
+        version: [ v6.1.0, v5.4.1 ]
+        example: [sqlx_tidb]
 
     steps:
       - uses: actions/checkout@v2
@@ -251,6 +251,15 @@ jobs:
           profile: minimal
           toolchain: stable
           override: true
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            Cargo.lock
+            target
+          key: ${{ github.sha }}-${{ github.run_id }}-${{ runner.os }}-mysql-${{ matrix.runtime }}-${{ matrix.tls }}
 
       - name: Install tiup
         run: curl --proto '=https' --tlsv1.2 -sSf https://tiup-mirrors.pingcap.com/install.sh | sh
@@ -263,7 +272,7 @@ jobs:
 
       - name: Vertify TiDB connection from host
         run: mysql --host 127.0.0.1 --port 4000 -u root
-        
+
       - name: Wait TiDB ready
         run: sleep 15s && cat nohup.txt
         shell: bash
