@@ -5,6 +5,8 @@ use proc_macro::{self, TokenStream};
 mod rusqlite;
 #[cfg(feature = "sqlx-mysql")]
 mod sqlx_mysql;
+#[cfg(feature = "sqlx-tidb")]
+mod sqlx_tidb;
 #[cfg(feature = "sqlx-postgres")]
 mod sqlx_postgres;
 #[cfg(feature = "sqlx-sqlite")]
@@ -13,7 +15,8 @@ mod sqlx_sqlite;
     feature = "rusqlite",
     feature = "sqlx-mysql",
     feature = "sqlx-postgres",
-    feature = "sqlx-sqlite"
+    feature = "sqlx-sqlite",
+    feature = "sqlx-tidb"
 ))]
 mod utils;
 
@@ -80,6 +83,42 @@ pub fn sea_query_driver_mysql(input: TokenStream) -> TokenStream {
 #[proc_macro]
 pub fn bind_params_sqlx_mysql(input: TokenStream) -> TokenStream {
     sqlx_mysql::bind_params_sqlx_mysql_impl(input)
+}
+
+/// Macro for generate new mod for sqlx-mysql.
+///
+/// Examples:
+/// ```
+/// sea_query::sea_query_driver_mysql!()
+/// ```
+///
+/// Specify a path to the `sqlx` crate instance
+/// ```
+/// sea_query::sea_query_driver_mysql!(sqlx = "...")
+/// ```
+///
+/// Specify a path to the `sea-query` crate instance
+/// ```
+/// sea_query::sea_query_driver_mysql!(sea_query = "...")
+/// ```
+///
+/// Specify pathes to the `sea-query` and to the `sqlx` crates instances
+/// ```
+/// sea_query::sea_query_driver_mysql!(sqlx="...", sea_query="...")
+/// // or
+/// sea_query::sea_query_driver_mysql!(sea_query="...", sqlx="...")
+/// ```
+#[cfg(feature = "sqlx-tidb")]
+#[proc_macro]
+pub fn sea_query_driver_tidb(input: TokenStream) -> TokenStream {
+    sqlx_tidb::sea_query_driver_tidb_impl(input)
+}
+
+/// Macro to easily bind [`Values`] to [`sqlx::query::Query`] or to [`sqlx::query::QueryAs`] for sqlx-mysql.
+#[cfg(feature = "sqlx-tidb")]
+#[proc_macro]
+pub fn bind_params_sqlx_tidb(input: TokenStream) -> TokenStream {
+    sqlx_tidb::bind_params_sqlx_tidb_impl(input)
 }
 
 /// Macro to generate sqlx-postgres driver.
