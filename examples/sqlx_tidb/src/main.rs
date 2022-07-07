@@ -5,7 +5,7 @@ use sea_query::{ColumnDef, Expr, Func, Iden, TiDBQueryBuilder, OnConflict, Order
 use sqlx::{types::chrono::NaiveDateTime, MySqlPool, Row};
 use time::{date, time, PrimitiveDateTime};
 
-sea_query::sea_query_driver_mysql!();
+sea_query::sea_query_driver_tidb!();
 use sea_query_driver_mysql::{bind_query, bind_query_as};
 use serde_json::{json, Value as Json};
 use uuid::Uuid;

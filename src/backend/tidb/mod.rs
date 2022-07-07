@@ -5,7 +5,7 @@ pub(crate) mod table;
 
 use super::*;
 
-/// Mysql query builder.
+/// TiDB query builder.
 #[derive(Debug)]
 pub struct TiDBQueryBuilder;
 
