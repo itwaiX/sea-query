@@ -230,14 +230,6 @@ jobs:
   tidb:
     name: TiDB
     runs-on: ubuntu-20.04
-    needs:
-      - init
-      - compile-mysql
-    if: >-
-      ${{
-        needs.init.outputs.run-partial == 'false' ||
-        (needs.init.outputs.run-partial == 'true' && needs.init.outputs.run-mysql == 'true')
-      }}
     env:
       DATABASE_URL: "mysql://root:@localhost:4000"
     strategy:
@@ -254,7 +246,7 @@ jobs:
           profile: minimal
           toolchain: stable
           override: true
-      
+
       - name: Install tiup
         run: curl --proto '=https' --tlsv1.2 -sSf https://tiup-mirrors.pingcap.com/install.sh | sh
 
