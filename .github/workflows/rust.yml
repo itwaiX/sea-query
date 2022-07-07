@@ -119,124 +119,138 @@ jobs:
           command: test
           args: --package sea-query-derive --all-features
 
-#  sqlite:
-#    name: SQLite
-#    runs-on: ubuntu-20.04
-#    strategy:
-#      matrix:
-#        example: [rusqlite, sqlx_sqlite]
-#    steps:
-#      - uses: actions/checkout@v2
-#
-#      - uses: actions-rs/toolchain@v1
-#        with:
-#          profile: minimal
-#          toolchain: stable
-#          override: true
-#
-#      - uses: actions-rs/cargo@v1
-#        with:
-#          command: build
-#          args: --manifest-path examples/${{ matrix.example }}/Cargo.toml
-#
-#      - uses: actions-rs/cargo@v1
-#        with:
-#          command: run
-#          args: --manifest-path examples/${{ matrix.example }}/Cargo.toml
-#
-#  mysql:
-#    name: MySQL
-#    runs-on: ubuntu-20.04
-#    strategy:
-#      matrix:
-#        version: [8.0, 5.7]
-#        example: [sqlx_mysql]
-#    services:
-#      mysql:
-#        image: mysql:${{ matrix.version }}
-#        env:
-#          MYSQL_HOST: 127.0.0.1
-#          MYSQL_DATABASE: query
-#          MYSQL_USER: sea
-#          MYSQL_PASSWORD: sea
-#          MYSQL_ROOT_PASSWORD: sea
-#        ports:
-#          - "3306:3306"
-#        options: >-
-#          --health-cmd="mysqladmin ping"
-#          --health-interval=10s
-#          --health-timeout=5s
-#          --health-retries=3
-#    steps:
-#      - uses: actions/checkout@v2
-#
-#      - uses: actions-rs/toolchain@v1
-#        with:
-#          profile: minimal
-#          toolchain: stable
-#          override: true
-#
-#      - uses: actions-rs/cargo@v1
-#        with:
-#          command: build
-#          args: --manifest-path examples/${{ matrix.example }}/Cargo.toml
-#
-#      - uses: actions-rs/cargo@v1
-#        with:
-#          command: run
-#          args: --manifest-path examples/${{ matrix.example }}/Cargo.toml
-#
-#  mariadb:
-#    name: MariaDB
-#    runs-on: ubuntu-20.04
-#    strategy:
-#      matrix:
-#        version: [10.6, 10.5, 10.4, 10.3, 10.2]
-#        example: [sqlx_mysql]
-#    services:
-#      mariadb:
-#        image: mariadb:${{ matrix.version }}
-#        env:
-#          MYSQL_HOST: 127.0.0.1
-#          MYSQL_DATABASE: query
-#          MYSQL_USER: sea
-#          MYSQL_PASSWORD: sea
-#          MYSQL_ROOT_PASSWORD: sea
-#        ports:
-#          - "3306:3306"
-#        options: >-
-#          --health-cmd="mysqladmin ping"
-#          --health-interval=10s
-#          --health-timeout=5s
-#          --health-retries=3
-#    steps:
-#      - uses: actions/checkout@v2
-#
-#      - uses: actions-rs/toolchain@v1
-#        with:
-#          profile: minimal
-#          toolchain: stable
-#          override: true
-#
-#      - uses: actions-rs/cargo@v1
-#        with:
-#          command: build
-#          args: --manifest-path examples/${{ matrix.example }}/Cargo.toml
-#
-#      - uses: actions-rs/cargo@v1
-#        with:
-#          command: run
-#          args: --manifest-path examples/${{ matrix.example }}/Cargo.toml
+  sqlite:
+    name: SQLite
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        example: [rusqlite, sqlx_sqlite]
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+
+      - uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --manifest-path examples/${{ matrix.example }}/Cargo.toml
+
+      - uses: actions-rs/cargo@v1
+        with:
+          command: run
+          args: --manifest-path examples/${{ matrix.example }}/Cargo.toml
+
+  mysql:
+    name: MySQL
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        version: [8.0, 5.7]
+        example: [sqlx_mysql]
+    services:
+      mysql:
+        image: mysql:${{ matrix.version }}
+        env:
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_DATABASE: query
+          MYSQL_USER: sea
+          MYSQL_PASSWORD: sea
+          MYSQL_ROOT_PASSWORD: sea
+        ports:
+          - "3306:3306"
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+
+      - uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --manifest-path examples/${{ matrix.example }}/Cargo.toml
+
+      - uses: actions-rs/cargo@v1
+        with:
+          command: run
+          args: --manifest-path examples/${{ matrix.example }}/Cargo.toml
+
+  mariadb:
+    name: MariaDB
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        version: [10.6, 10.5, 10.4, 10.3, 10.2]
+        example: [sqlx_mysql]
+    services:
+      mariadb:
+        image: mariadb:${{ matrix.version }}
+        env:
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_DATABASE: query
+          MYSQL_USER: sea
+          MYSQL_PASSWORD: sea
+          MYSQL_ROOT_PASSWORD: sea
+        ports:
+          - "3306:3306"
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+
+      - uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --manifest-path examples/${{ matrix.example }}/Cargo.toml
+
+      - uses: actions-rs/cargo@v1
+        with:
+          command: run
+          args: --manifest-path examples/${{ matrix.example }}/Cargo.toml
   tidb:
     name: TiDB
     runs-on: ubuntu-20.04
-    env:
-      DATABASE_URL: "mysql://root:@localhost:4000"
     strategy:
       fail-fast: false
       matrix:
         version: [ v6.1.0, v5.4.1 ]
         example: [sqlx_tidb]
+    services:
+      mysql:
+        image: tidb:${{ matrix.version }}
+        env:
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_DATABASE: query
+          MYSQL_USER: sea
+          MYSQL_PASSWORD: sea
+          MYSQL_ROOT_PASSWORD: sea
+        ports:
+          - "4000:4000"
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
     steps:
       - uses: actions/checkout@v2
 
