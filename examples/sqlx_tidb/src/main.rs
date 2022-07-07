@@ -1,7 +1,7 @@
 use bigdecimal::{BigDecimal, FromPrimitive};
 use chrono::NaiveDate;
 use rust_decimal::Decimal;
-use sea_query::{ColumnDef, Expr, Func, Iden, TiDBQueryBuilder, OnConflict, Order, Query, Table};
+use sea_query::{ColumnDef, Expr, Func, Iden, TidbQueryBuilder, OnConflict, Order, Query, Table};
 use sqlx::{types::chrono::NaiveDateTime, MySqlPool, Row};
 use time::{date, time, PrimitiveDateTime};
 
@@ -36,7 +36,7 @@ async fn main() {
         .col(ColumnDef::new(Character::Decimal).decimal())
         .col(ColumnDef::new(Character::BigDecimal).decimal())
         .col(ColumnDef::new(Character::Created).date_time())
-        .build(TiDBQueryBuilder);
+        .build(TidbQueryBuilder);
 
     let result = sqlx::query(&sql).execute(&mut pool).await;
     println!("Create table character: {:?}\n", result);
@@ -84,7 +84,7 @@ async fn main() {
                 .into(),
             date!(2020 - 8 - 20).with_time(time!(0:0:0)).into(),
         ])
-        .build(TiDBQueryBuilder);
+        .build(TidbQueryBuilder);
 
     let result = bind_query(sqlx::query(&sql), &values)
         .execute(&mut pool)
@@ -108,7 +108,7 @@ async fn main() {
         .from(Character::Table)
         .order_by(Character::Id, Order::Desc)
         .limit(1)
-        .build(TiDBQueryBuilder);
+        .build(TidbQueryBuilder);
 
     let rows = bind_query_as(sqlx::query_as::<_, CharacterStructChrono>(&sql), &values)
         .fetch_all(&mut pool)
@@ -136,7 +136,7 @@ async fn main() {
         .table(Character::Table)
         .values(vec![(Character::FontSize, 24.into())])
         .and_where(Expr::col(Character::Id).eq(id))
-        .build(TiDBQueryBuilder);
+        .build(TidbQueryBuilder);
 
     let result = bind_query(sqlx::query(&sql), &values)
         .execute(&mut pool)
@@ -159,7 +159,7 @@ async fn main() {
         .from(Character::Table)
         .order_by(Character::Id, Order::Desc)
         .limit(1)
-        .build(TiDBQueryBuilder);
+        .build(TidbQueryBuilder);
 
     let rows = bind_query_as(sqlx::query_as::<_, CharacterStructChrono>(&sql), &values)
         .fetch_all(&mut pool)
@@ -193,7 +193,7 @@ async fn main() {
                 .update_columns([Character::FontSize, Character::Character])
                 .to_owned(),
         )
-        .build(TiDBQueryBuilder);
+        .build(TidbQueryBuilder);
 
     let result = bind_query(sqlx::query(&sql), &values)
         .execute(&mut pool)
@@ -216,7 +216,7 @@ async fn main() {
         ])
         .from(Character::Table)
         .order_by(Character::Id, Order::Desc)
-        .build(TiDBQueryBuilder);
+        .build(TidbQueryBuilder);
 
     let rows = bind_query_as(sqlx::query_as::<_, CharacterStructChrono>(&sql), &values)
         .fetch_all(&mut pool)
@@ -243,7 +243,7 @@ async fn main() {
     let (sql, values) = Query::select()
         .from(Character::Table)
         .expr(Func::count(Expr::col(Character::Id)))
-        .build(TiDBQueryBuilder);
+        .build(TidbQueryBuilder);
 
     let row = bind_query(sqlx::query(&sql), &values)
         .fetch_one(&mut pool)
@@ -259,7 +259,7 @@ async fn main() {
     let (sql, values) = Query::delete()
         .from_table(Character::Table)
         .and_where(Expr::col(Character::Id).eq(id))
-        .build(TiDBQueryBuilder);
+        .build(TidbQueryBuilder);
 
     let result = bind_query(sqlx::query(&sql), &values)
         .execute(&mut pool)

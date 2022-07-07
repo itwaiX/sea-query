@@ -9,7 +9,7 @@ use super::*;
 #[derive(Debug)]
 pub struct TiDBQueryBuilder;
 
-pub type tidbQueryBuilder = TiDBQueryBuilder;
+pub type TidbQueryBuilder = TiDBQueryBuilder;
 
 impl Default for TiDBQueryBuilder {
     fn default() -> Self {
