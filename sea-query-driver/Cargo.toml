@@ -8,7 +8,7 @@ license = "MIT OR Apache-2.0"
 documentation = "https://docs.rs/sea-query"
 repository = "https://github.com/SeaQL/sea-query"
 categories = [ "database" ]
-keywords = [ "database", "sql", "mysql", "postgres", "sqlite" ]
+keywords = [ "database", "sql", "mysql", "postgres", "sqlite", "tidb"]
 
 [lib]
 proc-macro = true
@@ -23,6 +23,7 @@ rusqlite = []
 sqlx-mysql = []
 sqlx-postgres = []
 sqlx-sqlite = []
+sqlx-tidb = []
 with-chrono = []
 with-json = []
 with-rust_decimal = []
