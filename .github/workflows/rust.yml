@@ -257,14 +257,13 @@ jobs:
         run: while ! mysql -h 127.0.0.1 -P 4000 -u root -e "SELECT VERSION();"; do sleep 3; done
         shell: bash
 
+      - name: Database connection
+        run: mysql -h 127.0.0.1 -P 4000 -u root -e
+        shell: bash
+
       - name: Create User
-        run: CREATE USER IF NOT EXISTS 'sea' IDENTIFIED BY 'sea';
-
-      - name: Authorize
-        run: GRANT ALL ON *.* TO 'sea'; FLUSH PRIVILEGES;
-
-      - name: Create query database
-        run: CREATE DATABASE query;
+        run: mysql -h 127.0.0.1 -P 4000 -u root -e; CREATE USER IF NOT EXISTS 'sea' IDENTIFIED BY 'sea'; GRANT ALL ON *.* TO 'sea'; FLUSH PRIVILEGES; CREATE DATABASE query;
+        shell: bash
 
       - uses: actions-rs/cargo@v1
         with:
