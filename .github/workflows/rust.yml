@@ -144,47 +144,47 @@ jobs:
           command: run
           args: --manifest-path examples/${{ matrix.example }}/Cargo.toml
 
-  mysql:
-    name: MySQL
-    runs-on: ubuntu-20.04
-    strategy:
-      matrix:
-        version: [8.0, 5.7]
-        example: [sqlx_mysql]
-    services:
-      mysql:
-        image: mysql:${{ matrix.version }}
-        env:
-          MYSQL_HOST: 127.0.0.1
-          MYSQL_DATABASE: query
-          MYSQL_USER: sea
-          MYSQL_PASSWORD: sea
-          MYSQL_ROOT_PASSWORD: sea
-        ports:
-          - "3306:3306"
-        options: >-
-          --health-cmd="mysqladmin ping"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
-
-      - uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --manifest-path examples/${{ matrix.example }}/Cargo.toml
-
-      - uses: actions-rs/cargo@v1
-        with:
-          command: run
-          args: --manifest-path examples/${{ matrix.example }}/Cargo.toml
+#  mysql:
+#    name: MySQL
+#    runs-on: ubuntu-20.04
+#    strategy:
+#      matrix:
+#        version: [8.0, 5.7]
+#        example: [sqlx_mysql]
+#    services:
+#      mysql:
+#        image: mysql:${{ matrix.version }}
+#        env:
+#          MYSQL_HOST: 127.0.0.1
+#          MYSQL_DATABASE: query
+#          MYSQL_USER: sea
+#          MYSQL_PASSWORD: sea
+#          MYSQL_ROOT_PASSWORD: sea
+#        ports:
+#          - "3306:3306"
+#        options: >-
+#          --health-cmd="mysqladmin ping"
+#          --health-interval=10s
+#          --health-timeout=5s
+#          --health-retries=3
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - uses: actions-rs/toolchain@v1
+#        with:
+#          profile: minimal
+#          toolchain: stable
+#          override: true
+#
+#      - uses: actions-rs/cargo@v1
+#        with:
+#          command: build
+#          args: --manifest-path examples/${{ matrix.example }}/Cargo.toml
+#
+#      - uses: actions-rs/cargo@v1
+#        with:
+#          command: run
+#          args: --manifest-path examples/${{ matrix.example }}/Cargo.toml
 
 #  mariadb:
 #    name: MariaDB
@@ -257,12 +257,8 @@ jobs:
         run: while ! mysql -h 127.0.0.1 -P 4000 -u root -e "SELECT VERSION();"; do sleep 3; done
         shell: bash
 
-      - name: Database connection
-        run: mysql -h 127.0.0.1 -P 4000 -u root -e
-        shell: bash
-
       - name: Create User
-        run: mysql -h 127.0.0.1 -P 4000 -u root -e; CREATE USER IF NOT EXISTS 'sea' IDENTIFIED BY 'sea'; GRANT ALL ON *.* TO 'sea'; FLUSH PRIVILEGES; CREATE DATABASE query;
+        run: mysql -h 127.0.0.1 -P 4000 -u root -e "CREATE USER IF NOT EXISTS 'sea' IDENTIFIED BY 'sea'; GRANT ALL ON *.* TO 'sea'; FLUSH PRIVILEGES; CREATE DATABASE query;";
         shell: bash
 
       - uses: actions-rs/cargo@v1
